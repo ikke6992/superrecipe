@@ -9,3 +9,4 @@ Gradle
 
 repository backend, repository frontend
 Vite-React, CSS framework tbd
+De website laat data zien in het Nederlands
