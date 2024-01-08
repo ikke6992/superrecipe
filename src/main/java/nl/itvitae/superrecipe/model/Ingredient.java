@@ -1,5 +1,6 @@
 package nl.itvitae.superrecipe.model;
 
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -42,6 +43,7 @@ public class Ingredient {
         GRAMS("%s gr", false),
         TABLESPOONS("%s tbsp", true),
         TEASPOONS("%s tsp", true),
+        @JsonEnumDefaultValue
         PIECES("%s pieces", false),
         TOES("%s toes", false);
 
@@ -54,8 +56,11 @@ public class Ingredient {
         }
 
         public String format(double number) {
-            if (!useFraction || number % 1.0 == 0.0) return String.format(format, (int) number);
-            return String.format(format, number); // TODO: Make format return fractions like 1 1/2 tsp
+            double d = number % 1.0;
+            if (!useFraction || d == 0.0) return String.format(format, (int) number);
+            if (d < 0.375) return String.format(format, number + "\u00bc");
+            if (d < 0.625) return String.format(format, number + "\u00bd");
+            return String.format(format, number + "\u00be");
         }
     }
 }

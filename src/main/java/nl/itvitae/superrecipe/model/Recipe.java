@@ -1,5 +1,6 @@
 package nl.itvitae.superrecipe.model;
 
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -72,6 +73,7 @@ public class Recipe {
         OVEN,
         DEEP_FRIER,
         AIR_FRIER,
+        @JsonEnumDefaultValue
         COLD,
         COOKED,
         BAKED,
@@ -80,6 +82,7 @@ public class Recipe {
 
     public enum DishType {
         APPETIZER,
+        @JsonEnumDefaultValue
         MAIN_DISH,
         DESSERT,
         SNACK,
