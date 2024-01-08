@@ -79,4 +79,17 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class TokenDTO {
+        private String username;
+        private String token;
+
+        public TokenDTO(String username, String token) {
+            this.username = username;
+            this.token = token;
+        }
+    }
 }
