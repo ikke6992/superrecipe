@@ -16,6 +16,7 @@ import java.util.Set;
 @Setter
 @Entity(name = "`recipes`")
 public class Recipe {
+
     @Id
     @GeneratedValue
     private long id;

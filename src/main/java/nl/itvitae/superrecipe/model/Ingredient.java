@@ -16,6 +16,7 @@ import lombok.Setter;
 @Setter
 @Entity(name = "`ingredients`")
 public class Ingredient {
+
     @Id
     @GeneratedValue
     private long id;

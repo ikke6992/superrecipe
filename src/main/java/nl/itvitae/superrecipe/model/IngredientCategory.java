@@ -12,6 +12,7 @@ import lombok.Setter;
 @Setter
 @Entity(name = "`ingredient_categories`")
 public class IngredientCategory {
+
     @Id
     @GeneratedValue
     private long id;
