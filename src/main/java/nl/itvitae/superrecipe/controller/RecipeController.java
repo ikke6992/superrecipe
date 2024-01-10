@@ -1,5 +1,6 @@
 package nl.itvitae.superrecipe.controller;
 
+import lombok.RequiredArgsConstructor;
 import nl.itvitae.superrecipe.model.Recipe;
 import nl.itvitae.superrecipe.repo.RecipeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,10 @@ import java.util.Optional;
 
 @CrossOrigin
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("api/recipes")
 public class RecipeController {
-    @Autowired
-    public RecipeRepo recipeRepo;
+    private final RecipeRepo recipeRepo;
 
     @GetMapping("/")
     public List<Recipe> getAll() {

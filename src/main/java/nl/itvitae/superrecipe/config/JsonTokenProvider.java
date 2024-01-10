@@ -8,6 +8,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import nl.itvitae.superrecipe.service.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@RequiredArgsConstructor
 public class JsonTokenProvider {
 
     @Value("${app.jwt.secret}")
@@ -29,8 +31,7 @@ public class JsonTokenProvider {
 
     private JwtParser jwtParser;
 
-    @Autowired
-    UserDetailsService service;
+    private final UserDetailsService service;
 
     @PostConstruct
     @SuppressWarnings({"deprecation", "RedundantCast", "RedundantSuppression"})
