@@ -92,4 +92,9 @@ public class User implements UserDetails {
             this.token = token;
         }
     }
+
+    @Override
+    public String toString() {
+        return "User{name=" + username + ", password=" + (password.startsWith("$") ? "encrypted" : "unencrypted;" + password) + ", roles=[" + roles + "]}";
+    }
 }

@@ -26,4 +26,9 @@ public class IngredientCategory {
         this.name = name;
         this.allergies = allergies;
     }
+
+    @Override
+    public String toString() {
+        return "Category[" + name + (allergies ? ", allergies]" : "]");
+    }
 }

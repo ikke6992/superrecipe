@@ -40,10 +40,10 @@ public class Ingredient {
 
     public enum UnitValue {
         MILLILITERS("%s ml", false),
+        @JsonEnumDefaultValue
         GRAMS("%s gr", false),
         TABLESPOONS("%s tbsp", true),
         TEASPOONS("%s tsp", true),
-        @JsonEnumDefaultValue
         PIECES("%s pieces", false),
         TOES("%s toes", false);
 
@@ -62,5 +62,11 @@ public class Ingredient {
             if (d < 0.625) return String.format(format, number + "\u00bd");
             return String.format(format, number + "\u00be");
         }
+    }
+
+    @Override
+    // For debug purposes
+    public String toString() {
+        return "Ingredient{name=" + name + ", category=" + category.getName() + ", unit=" + unit + "}";
     }
 }
