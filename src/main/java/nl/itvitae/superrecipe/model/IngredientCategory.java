@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity(name = "`ingredient_categories`")
+@Entity(name = "ingredient_categories")
 public class IngredientCategory {
 
     @Id

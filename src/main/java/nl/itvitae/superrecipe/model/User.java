@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @Getter
@@ -74,5 +73,18 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class TokenDTO {
+        private String username;
+        private String token;
+
+        public TokenDTO(String username, String token) {
+            this.username = username;
+            this.token = token;
+        }
     }
 }
