@@ -34,7 +34,7 @@ public class RecipeController {
 
     @PostMapping("/")
     public ResponseEntity<?> create(@RequestBody Recipe recipe) {
-        recipe = recipeRepo.save(recipe);
+        recipeRepo.save(recipe);
         return ResponseEntity.created(null).build();
     }
 }
