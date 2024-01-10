@@ -12,45 +12,33 @@ import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity(name = "`recipes`")
 public class Recipe {
     @Id
     @GeneratedValue
     private long id;
 
-    @Getter
-    @Setter
     private String name;
 
-    @Getter
-    @Setter
     @ManyToMany(mappedBy = "recipes")
     private Set<Keyword> keywords = new HashSet<>();
 
     // TODO: Add LOB for picture
 
-    @Getter
-    @Setter
     @Column(columnDefinition = "TEXT")
     private String instructions;
 
-    @Getter
-    @Setter
     private String kitchen;
 
-    @Getter
-    @Setter
     @Enumerated(EnumType.STRING)
     private PreparationMethod preparationMethod;
 
-    @Getter
-    @Setter
     @JoinColumn(name = "recipe_id")
     @OneToMany(cascade = CascadeType.PERSIST)
     private List<RecipeIngredient> ingredients;
 
-    @Getter
-    @Setter
     @Enumerated(EnumType.STRING)
     private DishType type;
 

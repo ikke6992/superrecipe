@@ -10,6 +10,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity(name="keywords")
 public class Keyword {
 
@@ -17,12 +19,8 @@ public class Keyword {
     @GeneratedValue
     private long id;
 
-    @Getter
-    @Setter
     private String name;
 
-    @Getter
-    @Setter
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
             name = "recipe_keyword",
