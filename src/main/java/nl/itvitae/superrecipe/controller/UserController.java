@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/user")
 public class UserController {
     @Autowired
-    private UserRepo users;
+    private UserRepo userRepo;
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -40,11 +40,11 @@ public class UserController {
 
     @PostMapping("/register")
     public User.TokenDTO register(@RequestBody User user) {
-        if (users.findByUsername(user.getUsername()).isEmpty()) {
+        if (userRepo.findByUsername(user.getUsername()).isEmpty()) {
             String password = user.getPassword();
             user.setPassword(passwordEncoder.encode(password));
             user.setRoles("ROLE_USER");
-            users.save(user);
+            userRepo.save(user);
             String token = tokenProvider.generateToken(user);
             return new User.TokenDTO(user.getUsername(), token);
         }
