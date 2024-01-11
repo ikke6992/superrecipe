@@ -1,5 +1,6 @@
 package nl.itvitae.superrecipe.model;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -7,27 +8,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
 @Getter
 @Setter
-@Entity(name = "ingredient_categories")
-public class IngredientCategory {
+@NoArgsConstructor
+@Entity(name="keywords")
+public class Keyword {
 
     @Id
     @GeneratedValue
     private long id;
 
+    @JsonValue
     private String name;
 
-    private boolean allergies;
-
-    public IngredientCategory(String name, boolean allergies) {
+    public Keyword(String name) {
         this.name = name;
-        this.allergies = allergies;
     }
 
     @Override
     public String toString() {
-        return "Category[" + name + (allergies ? ", allergies]" : "]");
+        return name;
     }
 }

@@ -1,6 +1,8 @@
 package nl.itvitae.superrecipe.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +11,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,43 +20,43 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
-@Entity(name = "`recipes`")
+@Getter
+@Setter
+@Entity(name = "recipes")
 public class Recipe {
+
     @Id
     @GeneratedValue
     private long id;
 
-    @Getter
-    @Setter
     private String name;
 
-    // TODO: Add keywords field
-    // TODO: Add LOB for picture
+    @JsonBackReference
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(
+        name = "recipe_keyword",
+        joinColumns = {@JoinColumn(name = "keyword_id")},
+        inverseJoinColumns = {@JoinColumn(name = "recipe_id")}
+    )
+    private Set<Keyword> keywords;
 
-    @Getter
-    @Setter
+    // TODO: Add LOB for picture
     @Column(columnDefinition = "TEXT")
     private String instructions;
 
-    @Getter
-    @Setter
     private String kitchen;
 
-    @Getter
-    @Setter
     @Enumerated(EnumType.STRING)
     private PreparationMethod preparationMethod;
 
-    @Getter
-    @Setter
     @JoinColumn(name = "recipe_id")
     @OneToMany(cascade = CascadeType.PERSIST)
     private List<RecipeIngredient> ingredients;
 
-    @Getter
-    @Setter
     @Enumerated(EnumType.STRING)
     private DishType type;
 
@@ -67,6 +71,15 @@ public class Recipe {
 
     public void addIngredient(Ingredient ingredient, double amount) {
         this.ingredients.add(new RecipeIngredient(ingredient, amount));
+    }
+
+    public void addKeyword(String keyword) {
+        keywords.add(new Keyword(keyword));
+    }
+
+    @JsonGetter
+    public String getKeywords() {
+        return keywords.stream().map(Keyword::getName).collect(Collectors.joining(","));
     }
 
     public enum PreparationMethod {

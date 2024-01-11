@@ -19,26 +19,21 @@ import java.util.Collection;
 import java.util.List;
 
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity(name = "`users`")
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue
     private long id;
 
-    @Getter
-    @Setter
     private String username;
 
-    @Getter
-    @Setter
     private String password; // Will be empty as long as security is not implemented
 
-    @Getter
-    @Setter
     private String roles;
 
-    @Getter
-    @Setter
     @ManyToMany
     @OrderBy("name ASC")
     @JoinTable(name = "favorite_recipes")
@@ -91,5 +86,10 @@ public class User implements UserDetails {
             this.username = username;
             this.token = token;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "User{name=" + username + ", password=" + (password.startsWith("$") ? "encrypted" : "unencrypted;" + password) + ", roles=[" + roles + "]}";
     }
 }

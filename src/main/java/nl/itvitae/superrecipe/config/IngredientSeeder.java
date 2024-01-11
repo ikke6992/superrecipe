@@ -33,27 +33,26 @@ public class IngredientSeeder implements CommandLineRunner {
         IngredientCategory carb = new IngredientCategory("carbs", true);
         ingredientCategoryRepo.save(carb);
 
-
         List<Ingredient> ingredient = List.of(
-        new Ingredient("ui", vegetable, Ingredient.UnitValue.GRAMS),
-        new Ingredient("bloemkool", vegetable, Ingredient.UnitValue.GRAMS),
-        new Ingredient("wortel", vegetable, Ingredient.UnitValue.GRAMS),
-        new Ingredient("paprika", vegetable, Ingredient.UnitValue.GRAMS),
-        new Ingredient("tomaat", vegetable, Ingredient.UnitValue.GRAMS),
-        new Ingredient("aardappel", carb, Ingredient.UnitValue.GRAMS),
-        new Ingredient("rijst", carb, Ingredient.UnitValue.GRAMS),
-        new Ingredient("polenta", carb, Ingredient.UnitValue.GRAMS),
-        new Ingredient("pasta", carb, Ingredient.UnitValue.GRAMS),
-        new Ingredient("brood", carb, Ingredient.UnitValue.GRAMS),
-        new Ingredient("varkenshaas", vegetable, Ingredient.UnitValue.GRAMS),
-        new Ingredient("runderhaas", meat, Ingredient.UnitValue.GRAMS),
-        new Ingredient("kipfilet", meat, Ingredient.UnitValue.GRAMS),
-        new Ingredient("kipdij", meat, Ingredient.UnitValue.GRAMS),
-        new Ingredient("bacon", meat, Ingredient.UnitValue.GRAMS),
-        new Ingredient("ribeye", meat, Ingredient.UnitValue.GRAMS),
-        new Ingredient("pinda", nut, Ingredient.UnitValue.GRAMS),
-        new Ingredient("cashew", nut, Ingredient.UnitValue.GRAMS),
-        new Ingredient("macadamia", nut, Ingredient.UnitValue.GRAMS)
+            new Ingredient("ui", vegetable, Ingredient.UnitValue.GRAMS),
+            new Ingredient("bloemkool", vegetable, Ingredient.UnitValue.GRAMS),
+            new Ingredient("wortel", vegetable, Ingredient.UnitValue.GRAMS),
+            new Ingredient("paprika", vegetable, Ingredient.UnitValue.GRAMS),
+            new Ingredient("tomaat", vegetable, Ingredient.UnitValue.GRAMS),
+            new Ingredient("aardappel", carb, Ingredient.UnitValue.GRAMS),
+            new Ingredient("rijst", carb, Ingredient.UnitValue.GRAMS),
+            new Ingredient("polenta", carb, Ingredient.UnitValue.GRAMS),
+            new Ingredient("pasta", carb, Ingredient.UnitValue.GRAMS),
+            new Ingredient("brood", carb, Ingredient.UnitValue.GRAMS),
+            new Ingredient("varkenshaas", vegetable, Ingredient.UnitValue.GRAMS),
+            new Ingredient("runderhaas", meat, Ingredient.UnitValue.GRAMS),
+            new Ingredient("kipfilet", meat, Ingredient.UnitValue.GRAMS),
+            new Ingredient("kipdij", meat, Ingredient.UnitValue.GRAMS),
+            new Ingredient("bacon", meat, Ingredient.UnitValue.GRAMS),
+            new Ingredient("ribeye", meat, Ingredient.UnitValue.GRAMS),
+            new Ingredient("pinda", nut, Ingredient.UnitValue.GRAMS),
+            new Ingredient("cashew", nut, Ingredient.UnitValue.GRAMS),
+            new Ingredient("macadamia", nut, Ingredient.UnitValue.GRAMS)
         );
 
         ingredientRepo.saveAll(ingredient);
@@ -61,15 +60,12 @@ public class IngredientSeeder implements CommandLineRunner {
 
 
     @Override
-    public void run(String... args) throws Exception {
-
+    public void run(String... args) {
         long ingredientCount = ingredientRepo.count();
         if (ingredientCount == 0) {
             seedIngredients();
         } else {
             System.out.println("Ingredients already present: " + ingredientCount);
         }
-
-        
     }
 }

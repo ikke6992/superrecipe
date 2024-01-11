@@ -1,9 +1,9 @@
 package nl.itvitae.superrecipe.controller;
 
+import lombok.RequiredArgsConstructor;
 import nl.itvitae.superrecipe.config.JsonTokenProvider;
 import nl.itvitae.superrecipe.model.User;
 import nl.itvitae.superrecipe.repo.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,16 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/user")
 public class UserController {
-    @Autowired
-    private UserRepo userRepo;
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private JsonTokenProvider tokenProvider;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UserRepo userRepo;
+    private final AuthenticationManager authenticationManager;
+    private final JsonTokenProvider tokenProvider;
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
     public User.TokenDTO login(@RequestBody User request) {
