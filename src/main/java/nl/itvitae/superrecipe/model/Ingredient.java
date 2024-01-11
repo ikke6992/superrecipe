@@ -37,12 +37,12 @@ public class Ingredient {
 
     public enum UnitValue {
         MILLILITERS("%s ml", false),
-        GRAMS("%s gr", false),
-        TABLESPOONS("%s tbsp", true),
-        TEASPOONS("%s tsp", true),
         @JsonEnumDefaultValue
-        PIECES("%s pieces", false),
-        TOES("%s toes", false);
+        GRAMS("%s gr", false),
+        TABLESPOONS("%s el", true),
+        TEASPOONS("%s tl", true),
+        PIECES("%s stuks", false),
+        TOES("%s tenen", false);
 
         private final String format;
         private final boolean useFraction;
@@ -55,9 +55,15 @@ public class Ingredient {
         public String format(double number) {
             double d = number % 1.0;
             if (!useFraction || d == 0.0) return String.format(format, (int) number);
-            if (d < 0.375) return String.format(format, number + "\u00bc");
-            if (d < 0.625) return String.format(format, number + "\u00bd");
-            return String.format(format, number + "\u00be");
+            if (d < 0.375) return String.format(format, number + "\u00bc"); // 1/4
+            if (d < 0.625) return String.format(format, number + "\u00bd"); // 1/2
+            return String.format(format, number + "\u00be"); // 3/4
         }
+    }
+
+    @Override
+    // For debug purposes
+    public String toString() {
+        return "Ingredient{name=" + name + ", category=" + category.getName() + ", unit=" + unit + "}";
     }
 }

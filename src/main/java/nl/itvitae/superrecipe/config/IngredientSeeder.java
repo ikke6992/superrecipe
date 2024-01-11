@@ -41,7 +41,6 @@ public class IngredientSeeder implements CommandLineRunner {
         IngredientCategory condiment = new IngredientCategory("condiment", false);
         ingredientCategoryRepo.save(condiment);
 
-
         List<Ingredient> ingredient = List.of(
             new Ingredient("ui", vegetable, Ingredient.UnitValue.GRAMS),
             new Ingredient("knoflook", vegetable, Ingredient.UnitValue.TOES),
@@ -69,7 +68,10 @@ public class IngredientSeeder implements CommandLineRunner {
             new Ingredient("macadamia", nut, Ingredient.UnitValue.GRAMS),
             new Ingredient("zout", spice, Ingredient.UnitValue.TEASPOONS),
             new Ingredient("peper", spice, Ingredient.UnitValue.TEASPOONS),
-            new Ingredient("curry", condiment, Ingredient.UnitValue.MILLILITERS)
+            new Ingredient("curry", condiment, Ingredient.UnitValue.MILLILITERS),
+            new Ingredient("pinda", nut, Ingredient.UnitValue.GRAMS),
+            new Ingredient("cashew", nut, Ingredient.UnitValue.GRAMS),
+            new Ingredient("macadamia", nut, Ingredient.UnitValue.GRAMS)
         );
 
         ingredientRepo.saveAll(ingredient);
@@ -77,21 +79,14 @@ public class IngredientSeeder implements CommandLineRunner {
 
     public void seedRecipes() {
 
-        Keyword hollands = new Keyword("Hollands");
-        Keyword italiaans = new Keyword("Italiaans");
-        Keyword binnen30Minuten = new Keyword("binnen 30 minuten");
-        Keyword oven = new Keyword("oven");
-        Keyword hauteCuisine = new Keyword("Haute Cuisine");
-        keywordRepo.saveAll(List.of(hollands, italiaans, binnen30Minuten, oven, hauteCuisine));
-
         Recipe frikandellington = new Recipe("Frikandellington", "Maak het lekker", "Hollands",
                 Recipe.PreparationMethod.OVEN, Recipe.DishType.MAIN_DISH);
         frikandellington.addIngredient(ingredientRepo.findByName("frikandel").get(), 5);
         frikandellington.addIngredient(ingredientRepo.findByName("bladerdeeg").get(), 1);
         frikandellington.addIngredient(ingredientRepo.findByName("curry").get(), 50);
-        frikandellington.addKeyword(hollands);
-        frikandellington.addKeyword(oven);
-        frikandellington.addKeyword(hauteCuisine);
+        frikandellington.addKeyword("Hollands");
+        frikandellington.addKeyword("Oven");
+        frikandellington.addKeyword("Haute Cuisine");
         recipeRepo.save(frikandellington);
 
         Recipe carbonara = new Recipe("Carbonara", "GEEN F*CKING ROOM!", "Italiaans",
@@ -103,15 +98,14 @@ public class IngredientSeeder implements CommandLineRunner {
         carbonara.addIngredient(ingredientRepo.findByName("pecorino").get(), 120);
         carbonara.addIngredient(ingredientRepo.findByName("zout").get(), 1);
         carbonara.addIngredient(ingredientRepo.findByName("peper").get(), 2);
-        carbonara.addKeyword(italiaans);
-        carbonara.addKeyword(binnen30Minuten);
+        carbonara.addKeyword("Italiaans");
+        carbonara.addKeyword("Binnen 30 Minuten");
         recipeRepo.save(carbonara);
     }
 
 
     @Override
-    public void run(String... args) throws Exception {
-
+    public void run(String... args) {
         long ingredientCount = ingredientRepo.count();
         if (ingredientCount == 0) {
             seedIngredients();
@@ -119,7 +113,5 @@ public class IngredientSeeder implements CommandLineRunner {
         } else {
             System.out.println("Ingredients already present: " + ingredientCount);
         }
-
-        
     }
 }

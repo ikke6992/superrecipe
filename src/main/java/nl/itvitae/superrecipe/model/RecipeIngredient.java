@@ -35,4 +35,10 @@ public class RecipeIngredient {
     public String getAmountInUnits() {
         return ingredient.getUnit().format(amount);
     }
+
+    @Override
+    // For debug purposes
+    public String toString() {
+        return "RecipeIngredient[" + getAmountInUnits() + " " + ingredient.getName() + "]";
+    }
 }
