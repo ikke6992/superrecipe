@@ -1,58 +1,45 @@
 package nl.itvitae.superrecipe.model;
 
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
-@Entity(name = "`recipes`")
+@Getter
+@Setter
+@Entity(name = "recipes")
 public class Recipe {
+
     @Id
     @GeneratedValue
     private long id;
 
-    @Getter
-    @Setter
     private String name;
 
-    // TODO: Add keywords field
+    @ManyToMany(mappedBy = "recipes")
+    private Set<Keyword> keywords = new HashSet<>();
+
     // TODO: Add LOB for picture
 
-    @Getter
-    @Setter
     @Column(columnDefinition = "TEXT")
     private String instructions;
 
-    @Getter
-    @Setter
     private String kitchen;
 
-    @Getter
-    @Setter
     @Enumerated(EnumType.STRING)
     private PreparationMethod preparationMethod;
 
-    @Getter
-    @Setter
     @JoinColumn(name = "recipe_id")
     @OneToMany(cascade = CascadeType.PERSIST)
     private List<RecipeIngredient> ingredients;
 
-    @Getter
-    @Setter
     @Enumerated(EnumType.STRING)
     private DishType type;
 
@@ -67,6 +54,10 @@ public class Recipe {
 
     public void addIngredient(Ingredient ingredient, double amount) {
         this.ingredients.add(new RecipeIngredient(ingredient, amount));
+    }
+
+    public void addKeyword(Keyword keyword) {
+        keywords.add(keyword);
     }
 
     public enum PreparationMethod {

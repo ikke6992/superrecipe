@@ -11,19 +11,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor
-@Entity(name = "`recipe_ingredients`")
+@Getter
+@Setter
+@Entity(name = "recipe_ingredients")
 public class RecipeIngredient {
+
     @Id
     @GeneratedValue
     public long id;
 
-    @Getter
-    @Setter
     @ManyToOne(optional = false)
     public Ingredient ingredient;
 
-    @Getter
-    @Setter
     @JsonIgnore
     public double amount;
 

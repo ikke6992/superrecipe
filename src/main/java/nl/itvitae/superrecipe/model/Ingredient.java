@@ -12,23 +12,20 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity(name = "ingredients")
 public class Ingredient {
+
     @Id
     @GeneratedValue
     private long id;
 
-    @Getter
-    @Setter
     private String name;
 
-    @Getter
-    @Setter
     @ManyToOne(optional = false)
     private IngredientCategory category;
 
-    @Getter
-    @Setter
     @Enumerated(EnumType.STRING)
     private UnitValue unit;
 
