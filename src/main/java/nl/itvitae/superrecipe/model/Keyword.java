@@ -1,5 +1,6 @@
 package nl.itvitae.superrecipe.model;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -17,6 +18,7 @@ public class Keyword {
     @GeneratedValue
     private long id;
 
+    @JsonValue
     private String name;
 
     public Keyword(String name) {
