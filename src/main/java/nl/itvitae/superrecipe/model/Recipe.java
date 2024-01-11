@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -35,14 +36,13 @@ public class Recipe {
 
     private String name;
 
-    @JsonBackReference
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
         name = "recipe_keyword",
         joinColumns = {@JoinColumn(name = "keyword_id")},
         inverseJoinColumns = {@JoinColumn(name = "recipe_id")}
     )
-    private Set<Keyword> keywords;
+    private Set<Keyword> keywords = new HashSet<>();
 
     // TODO: Add LOB for picture
     @Column(columnDefinition = "TEXT")
