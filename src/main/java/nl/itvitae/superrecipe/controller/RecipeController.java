@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -32,9 +33,15 @@ public class RecipeController {
         return recipeRepo.findById(id);
     }
 
+    @GetMapping("/search")
+    public List<Recipe> searchAll(@RequestParam("q") String query) {
+        return recipeRepo.findAllWhereKeywordMatch(query + "%");
+    }
+
     @PostMapping("/")
     public ResponseEntity<?> create(@RequestBody Recipe recipe) {
         recipeRepo.save(recipe);
+        //noinspection DataFlowIssue
         return ResponseEntity.created(null).build();
     }
 }

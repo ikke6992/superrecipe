@@ -1,13 +1,23 @@
 package nl.itvitae.superrecipe.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -23,11 +33,16 @@ public class Recipe {
 
     private String name;
 
-    @ManyToMany(mappedBy = "recipes")
-    private Set<Keyword> keywords = new HashSet<>();
+    @JsonBackReference
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(
+        name = "recipe_keyword",
+        joinColumns = {@JoinColumn(name = "keyword_id")},
+        inverseJoinColumns = {@JoinColumn(name = "recipe_id")}
+    )
+    private Set<Keyword> keywords;
 
     // TODO: Add LOB for picture
-
     @Column(columnDefinition = "TEXT")
     private String instructions;
 
@@ -56,8 +71,8 @@ public class Recipe {
         this.ingredients.add(new RecipeIngredient(ingredient, amount));
     }
 
-    public void addKeyword(Keyword keyword) {
-        keywords.add(keyword);
+    public void addKeyword(String keyword) {
+        keywords.add(new Keyword(keyword));
     }
 
     public enum PreparationMethod {
