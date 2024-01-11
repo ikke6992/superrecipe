@@ -2,6 +2,7 @@ package nl.itvitae.superrecipe.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,6 +21,7 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @Getter
@@ -73,6 +75,11 @@ public class Recipe {
 
     public void addKeyword(String keyword) {
         keywords.add(new Keyword(keyword));
+    }
+
+    @JsonGetter
+    public String getKeywords() {
+        return keywords.stream().map(Keyword::getName).collect(Collectors.joining(","));
     }
 
     public enum PreparationMethod {
