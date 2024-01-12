@@ -1,8 +1,6 @@
 package nl.itvitae.superrecipe.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
-import com.fasterxml.jackson.annotation.JsonGetter;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,13 +17,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity(name = "recipes")
 public class Recipe {
 
@@ -35,12 +33,11 @@ public class Recipe {
 
     private String name;
 
-    @JsonBackReference
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
         name = "recipe_keyword",
-        joinColumns = {@JoinColumn(name = "keyword_id")},
-        inverseJoinColumns = {@JoinColumn(name = "recipe_id")}
+        joinColumns = @JoinColumn(name = "keyword_id"),
+        inverseJoinColumns = @JoinColumn(name = "recipe_id")
     )
     private Set<Keyword> keywords;
 
@@ -73,13 +70,8 @@ public class Recipe {
         this.ingredients.add(new RecipeIngredient(ingredient, amount));
     }
 
-    public void addKeyword(String keyword) {
-        keywords.add(new Keyword(keyword));
-    }
-
-    @JsonGetter
-    public String getKeywords() {
-        return keywords.stream().map(Keyword::getName).collect(Collectors.joining(","));
+    public void addKeywords(String... keywords) {
+        this.keywords.addAll(Arrays.stream(keywords).map(Keyword::new).toList());
     }
 
     public enum PreparationMethod {

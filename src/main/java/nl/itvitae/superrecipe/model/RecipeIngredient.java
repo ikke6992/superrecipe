@@ -10,9 +10,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity(name = "recipe_ingredients")
 public class RecipeIngredient {
 
@@ -20,15 +20,20 @@ public class RecipeIngredient {
     @GeneratedValue
     public long id;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
     public Ingredient ingredient;
 
-    @JsonIgnore
     public double amount;
 
     public RecipeIngredient(Ingredient ingredient, double amount) {
         this.ingredient = ingredient;
         this.amount = amount;
+    }
+
+    @JsonProperty
+    public String getName() {
+        return ingredient.getName();
     }
 
     @JsonProperty

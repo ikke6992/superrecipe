@@ -9,6 +9,9 @@ import java.util.List;
 
 @Repository
 public interface RecipeRepo extends JpaRepository<Recipe, Long> {
-    @Query(value = "SELECT * FROM recipe WHERE name IN (SELECT name FROM keyword WHERE name LIKE ?1)", nativeQuery = true)
+    @Query(
+        value = "SELECT * FROM recipe WHERE name IN (SELECT name FROM keyword WHERE name LIKE ?1)",
+        nativeQuery = true
+    )
     List<Recipe> findAllWhereKeywordMatch(String name);
 }

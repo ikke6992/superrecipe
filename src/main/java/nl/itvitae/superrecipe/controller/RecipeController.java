@@ -25,6 +25,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping("api/recipes")
 public class RecipeController {
+
     private final RecipeRepo recipeRepo;
     private final UserRepo userRepo;
 
