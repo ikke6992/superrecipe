@@ -79,6 +79,13 @@ public class Recipe {
         this.keywords.addAll(Arrays.stream(keywords).map(Keyword::new).toList());
     }
 
+    @Override
+    public String toString() {
+        return "Recipe{\n  name=" + name +
+                ",\ningredients=" + Arrays.toString(ingredients.toArray()) +
+                ",\ninstructions=```\n" + instructions + "\n```}";
+    }
+
     public enum PreparationMethod {
         OVEN,
         DEEP_FRIER,

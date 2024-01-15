@@ -50,6 +50,10 @@ public class User implements UserDetails {
         favoriteRecipes.add(recipe);
     }
 
+    public boolean removeFavorite(Recipe recipe) {
+        return favoriteRecipes.remove(recipe);
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Arrays.stream(roles.split(",")).map(SimpleGrantedAuthority::new).toList();
