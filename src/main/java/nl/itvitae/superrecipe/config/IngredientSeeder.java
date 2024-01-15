@@ -4,13 +4,17 @@ import lombok.RequiredArgsConstructor;
 import nl.itvitae.superrecipe.model.Ingredient;
 import nl.itvitae.superrecipe.model.IngredientCategory;
 import nl.itvitae.superrecipe.model.Recipe;
+import nl.itvitae.superrecipe.model.User;
 import nl.itvitae.superrecipe.repo.IngredientCategoryRepo;
 import nl.itvitae.superrecipe.repo.IngredientRepo;
 import nl.itvitae.superrecipe.repo.RecipeRepo;
+import nl.itvitae.superrecipe.repo.UserRepo;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Component
 @RequiredArgsConstructor
@@ -19,6 +23,8 @@ public class IngredientSeeder implements CommandLineRunner {
     private final IngredientRepo ingredientRepo;
     private final IngredientCategoryRepo ingredientCategoryRepo;
     private final RecipeRepo recipeRepo;
+    private final UserRepo userRepo;
+    private final PasswordEncoder passwordEncoder;
 
     public void seedIngredients() {
         IngredientCategory vegetable = new IngredientCategory("vegetable", false);
@@ -97,6 +103,10 @@ public class IngredientSeeder implements CommandLineRunner {
         recipeRepo.save(carbonara);
     }
 
+    private void seedUsers() {
+        userRepo.save(new User("user", passwordEncoder.encode("user"), "ROLE_USER"));
+    }
+
 
     @Override
     public void run(String... args) {
@@ -104,8 +114,10 @@ public class IngredientSeeder implements CommandLineRunner {
         if (ingredientCount == 0) {
             seedIngredients();
             seedRecipes();
+            seedUsers();
         } else {
-            System.out.println("Ingredients already present: " + ingredientCount);
+            Logger logger = Logger.getLogger(getClass().getName());
+            logger.info("Ingredients already present: " + ingredientCount);
         }
     }
 }

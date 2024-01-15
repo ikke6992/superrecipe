@@ -12,12 +12,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -25,6 +28,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity(name = "recipes")
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 public class Recipe {
 
     @Id
@@ -35,7 +39,7 @@ public class Recipe {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-        name = "recipe_keyword",
+        name = "recipe_keywords",
         joinColumns = @JoinColumn(name = "keyword_id"),
         inverseJoinColumns = @JoinColumn(name = "recipe_id")
     )
@@ -63,6 +67,7 @@ public class Recipe {
         this.kitchen = kitchen;
         this.preparationMethod = preparationMethod;
         this.ingredients = new ArrayList<>();
+        this.keywords = new HashSet<>();
         this.type = type;
     }
 

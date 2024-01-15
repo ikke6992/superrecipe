@@ -86,10 +86,15 @@ public class User implements UserDetails {
             this.username = username;
             this.token = token;
         }
+
+        @Override
+        public String toString() {
+            return "JsonWebToken[Bearer " + token + "]";
+        }
     }
 
     @Override
     public String toString() {
-        return "User{name=" + username + ", password=" + (password.startsWith("$") ? "encrypted" : "unencrypted;" + password) + ", roles=[" + roles + "]}";
+        return "User{name=" + username + ", password=" + (password.startsWith("$") ? "encrypted" : "unencrypted; " + password) + ", roles=[" + roles + "]}";
     }
 }
