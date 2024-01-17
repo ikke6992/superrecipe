@@ -15,4 +15,6 @@ public interface RecipeRepo extends JpaRepository<Recipe, Long> {
         // This functionality doesn't work yet and will be left alone
     )
     List<Recipe> findAllWhereKeywordMatch(String name);
+
+    List<String> findAllNames();
 }

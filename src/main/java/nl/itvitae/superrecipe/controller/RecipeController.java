@@ -39,9 +39,14 @@ public class RecipeController {
         return recipeRepo.findById(id);
     }
 
-    @GetMapping("/search")
+    @Deprecated
     public List<Recipe> searchAll(@RequestParam("q") String query) {
         return recipeRepo.findAllWhereKeywordMatch(query + "%");
+    }
+
+    @GetMapping("/search")
+    public List<String> searchAll() {
+        return recipeRepo.findAllNames();
     }
 
     @PostMapping("/")
