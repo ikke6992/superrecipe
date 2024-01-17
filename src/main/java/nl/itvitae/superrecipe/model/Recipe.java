@@ -1,8 +1,6 @@
 package nl.itvitae.superrecipe.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
-import com.fasterxml.jackson.annotation.JsonGetter;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,20 +12,23 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity(name = "recipes")
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 public class Recipe {
 
     @Id
@@ -36,11 +37,11 @@ public class Recipe {
 
     private String name;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-        name = "recipe_keyword",
-        joinColumns = {@JoinColumn(name = "keyword_id")},
-        inverseJoinColumns = {@JoinColumn(name = "recipe_id")}
+        name = "recipe_keywords",
+        joinColumns = @JoinColumn(name = "keyword_id"),
+        inverseJoinColumns = @JoinColumn(name = "recipe_id")
     )
     private Set<Keyword> keywords = new HashSet<>();
 
@@ -66,6 +67,7 @@ public class Recipe {
         this.kitchen = kitchen;
         this.preparationMethod = preparationMethod;
         this.ingredients = new ArrayList<>();
+        this.keywords = new HashSet<>();
         this.type = type;
     }
 
@@ -73,13 +75,15 @@ public class Recipe {
         this.ingredients.add(new RecipeIngredient(ingredient, amount));
     }
 
-    public void addKeyword(String keyword) {
-        keywords.add(new Keyword(keyword));
+    public void addKeywords(String... keywords) {
+        this.keywords.addAll(Arrays.stream(keywords).map(Keyword::new).toList());
     }
 
-    @JsonGetter
-    public String getKeywords() {
-        return keywords.stream().map(Keyword::getName).collect(Collectors.joining(","));
+    @Override
+    public String toString() {
+        return "Recipe{\n  name=" + name +
+                ",\ningredients=" + Arrays.toString(ingredients.toArray()) +
+                ",\ninstructions=```\n" + instructions + "\n```}";
     }
 
     public enum PreparationMethod {

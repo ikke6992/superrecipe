@@ -5,6 +5,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,13 +19,10 @@ import java.io.IOException;
 import java.util.Collection;
 
 @Component
+@RequiredArgsConstructor
 public class JsonTokenFilter extends OncePerRequestFilter {
 
     private final JsonTokenProvider tokenProvider;
-
-    public JsonTokenFilter(JsonTokenProvider tokenProvider) {
-        this.tokenProvider = tokenProvider;
-    }
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
