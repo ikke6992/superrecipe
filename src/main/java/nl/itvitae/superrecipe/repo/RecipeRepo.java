@@ -16,5 +16,6 @@ public interface RecipeRepo extends JpaRepository<Recipe, Long> {
     )
     List<Recipe> findAllWhereKeywordMatch(String name);
 
+    @Query("SELECT name FROM recipes")
     List<String> findAllNames();
 }
