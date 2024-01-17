@@ -88,10 +88,12 @@ public class IngredientSeeder implements CommandLineRunner {
         frikandellington.addIngredient(ingredientRepo.findByName("bladerdeeg").orElseThrow(), 1);
         frikandellington.addIngredient(ingredientRepo.findByName("curry").orElseThrow(), 50);
         frikandellington.addKeywords("Hollands", "Oven", "Haute Cuisine");
+
         recipeRepo.save(frikandellington);
 
         Recipe carbonara = new Recipe("Carbonara", "GEEN F*CKING ROOM!", "Italiaans",
                 Recipe.PreparationMethod.COOKED, Recipe.DishType.MAIN_DISH);
+
         carbonara.addIngredient(ingredientRepo.findByName("pasta").orElseThrow(), 400);
         carbonara.addIngredient(ingredientRepo.findByName("ei").orElseThrow(), 6);
         carbonara.addIngredient(ingredientRepo.findByName("bacon").orElseThrow(), 200);

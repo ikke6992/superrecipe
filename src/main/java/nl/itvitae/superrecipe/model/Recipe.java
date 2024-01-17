@@ -43,7 +43,7 @@ public class Recipe {
         joinColumns = @JoinColumn(name = "keyword_id"),
         inverseJoinColumns = @JoinColumn(name = "recipe_id")
     )
-    private Set<Keyword> keywords;
+    private Set<Keyword> keywords = new HashSet<>();
 
     // TODO: Add LOB for picture
     @Column(columnDefinition = "TEXT")
