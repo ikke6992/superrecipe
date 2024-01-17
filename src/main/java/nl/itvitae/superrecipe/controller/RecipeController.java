@@ -23,7 +23,7 @@ import java.util.Optional;
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/recipes")
+@RequestMapping("api/recipes")
 public class RecipeController {
 
     private final RecipeRepo recipeRepo;
@@ -39,8 +39,13 @@ public class RecipeController {
         return recipeRepo.findById(id);
     }
 
+    @Deprecated
+    public List<Recipe> searchAll(@RequestParam("q") String query) {
+        return recipeRepo.findAllWhereKeywordMatch(query + "%");
+    }
+
     @GetMapping("/search")
-    public Iterable<String> searchAll() {
+    public List<String> searchAll() {
         return recipeRepo.findAllNames();
     }
 
