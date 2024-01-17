@@ -19,14 +19,14 @@ public class Keyword {
     private long id;
 
     @JsonValue
-    private String value;
+    private String name;
 
-    public Keyword(String value) {
-        this.value = value;
+    public Keyword(String name) {
+        this.name = name;
     }
 
     @Override
     public String toString() {
-        return value;
+        return name;
     }
 }

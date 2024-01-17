@@ -8,10 +8,10 @@ import nl.itvitae.superrecipe.repo.UserRepo;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +25,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping("/api/recipes")
 public class RecipeController {
-
     private final RecipeRepo recipeRepo;
     private final UserRepo userRepo;
 
@@ -47,11 +46,11 @@ public class RecipeController {
     @PostMapping("/")
     public ResponseEntity<?> create(@RequestBody Recipe recipe) {
         recipeRepo.save(recipe);
-        // noinspection DataFlowIssue
+        //noinspection DataFlowIssue
         return ResponseEntity.created(null).build();
     }
 
-    @PostMapping("/{id}/favorite")
+    @PutMapping("/{id}/favorite")
     public Optional<Recipe> addToFavorite(@PathVariable("id") long id, Authentication authentication) {
         try {
             Recipe recipe = recipeRepo.findById(id).orElseThrow();
@@ -61,18 +60,6 @@ public class RecipeController {
             return Optional.of(recipe);
         } catch (Exception exception) {
             return Optional.empty();
-        }
-    }
-
-    @DeleteMapping("/{id}/favorite")
-    public ResponseEntity<?> removeFromFavorite(@PathVariable("id") long id, Authentication authentication) {
-        try {
-            Recipe recipe = recipeRepo.findById(id).orElseThrow();
-            String username = (String) authentication.getPrincipal();
-            User user = userRepo.findByUsername(username).orElseThrow();
-            return user.removeFavorite(recipe) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
-        } catch (Exception exception) {
-            return ResponseEntity.notFound().build();
         }
     }
 }

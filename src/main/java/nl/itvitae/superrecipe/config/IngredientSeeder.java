@@ -3,18 +3,16 @@ package nl.itvitae.superrecipe.config;
 import lombok.RequiredArgsConstructor;
 import nl.itvitae.superrecipe.model.Ingredient;
 import nl.itvitae.superrecipe.model.IngredientCategory;
+import nl.itvitae.superrecipe.model.Keyword;
 import nl.itvitae.superrecipe.model.Recipe;
-import nl.itvitae.superrecipe.model.User;
 import nl.itvitae.superrecipe.repo.IngredientCategoryRepo;
 import nl.itvitae.superrecipe.repo.IngredientRepo;
+import nl.itvitae.superrecipe.repo.KeywordRepo;
 import nl.itvitae.superrecipe.repo.RecipeRepo;
-import nl.itvitae.superrecipe.repo.UserRepo;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 @Component
 @RequiredArgsConstructor
@@ -23,8 +21,7 @@ public class IngredientSeeder implements CommandLineRunner {
     private final IngredientRepo ingredientRepo;
     private final IngredientCategoryRepo ingredientCategoryRepo;
     private final RecipeRepo recipeRepo;
-    private final UserRepo userRepo;
-    private final PasswordEncoder passwordEncoder;
+    private final KeywordRepo keywordRepo;
 
     public void seedIngredients() {
         IngredientCategory vegetable = new IngredientCategory("vegetable", false);
@@ -84,30 +81,28 @@ public class IngredientSeeder implements CommandLineRunner {
 
         Recipe frikandellington = new Recipe("Frikandellington", "Maak het lekker", "Hollands",
                 Recipe.PreparationMethod.OVEN, Recipe.DishType.MAIN_DISH);
-        frikandellington.addIngredient(ingredientRepo.findByName("frikandel").orElseThrow(), 5);
-        frikandellington.addIngredient(ingredientRepo.findByName("bladerdeeg").orElseThrow(), 1);
-        frikandellington.addIngredient(ingredientRepo.findByName("curry").orElseThrow(), 50);
-        frikandellington.addKeywords("Hollands", "Oven", "Haute Cuisine");
-
+        frikandellington.addIngredient(ingredientRepo.findByName("frikandel").get(), 5);
+        frikandellington.addIngredient(ingredientRepo.findByName("bladerdeeg").get(), 1);
+        frikandellington.addIngredient(ingredientRepo.findByName("curry").get(), 50);
+        frikandellington.addKeyword("Hollands");
+        frikandellington.addKeyword("Oven");
+        frikandellington.addKeyword("Haute Cuisine");
         recipeRepo.save(frikandellington);
 
         Recipe carbonara = new Recipe("Carbonara", "GEEN F*CKING ROOM!", "Italiaans",
                 Recipe.PreparationMethod.COOKED, Recipe.DishType.MAIN_DISH);
-
-        carbonara.addIngredient(ingredientRepo.findByName("pasta").orElseThrow(), 400);
-        carbonara.addIngredient(ingredientRepo.findByName("ei").orElseThrow(), 6);
-        carbonara.addIngredient(ingredientRepo.findByName("bacon").orElseThrow(), 200);
-        carbonara.addIngredient(ingredientRepo.findByName("knoflook").orElseThrow(), 5);
-        carbonara.addIngredient(ingredientRepo.findByName("pecorino").orElseThrow(), 120);
-        carbonara.addIngredient(ingredientRepo.findByName("zout").orElseThrow(), 1);
-        carbonara.addIngredient(ingredientRepo.findByName("peper").orElseThrow(), 2);
-        carbonara.addKeywords("Italiaans", "Binnen 30 Minuten");
+        carbonara.addIngredient(ingredientRepo.findByName("pasta").get(), 400);
+        carbonara.addIngredient(ingredientRepo.findByName("ei").get(), 6);
+        carbonara.addIngredient(ingredientRepo.findByName("bacon").get(), 200);
+        carbonara.addIngredient(ingredientRepo.findByName("knoflook").get(), 5);
+        carbonara.addIngredient(ingredientRepo.findByName("pecorino").get(), 120);
+        carbonara.addIngredient(ingredientRepo.findByName("zout").get(), 1);
+        carbonara.addIngredient(ingredientRepo.findByName("peper").get(), 2);
+        carbonara.addKeyword("Italiaans");
+        carbonara.addKeyword("Binnen 30 Minuten");
         recipeRepo.save(carbonara);
     }
 
-    private void seedUsers() {
-        userRepo.save(new User("user", passwordEncoder.encode("user"), "ROLE_USER"));
-    }
 
     @Override
     public void run(String... args) {
@@ -115,10 +110,8 @@ public class IngredientSeeder implements CommandLineRunner {
         if (ingredientCount == 0) {
             seedIngredients();
             seedRecipes();
-            seedUsers();
         } else {
-            Logger logger = Logger.getLogger(getClass().getName());
-            logger.info("Ingredients already present: " + ingredientCount);
+            System.out.println("Ingredients already present: " + ingredientCount);
         }
     }
 }

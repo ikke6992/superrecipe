@@ -1,7 +1,7 @@
 package nl.itvitae.superrecipe.config;
 
-import lombok.RequiredArgsConstructor;
 import nl.itvitae.superrecipe.service.UserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,12 +18,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 public class SecurityConfig {
-
-    private final JsonTokenFilter tokenFilter;
-    private final UserDetailsService detailService;
-
+    @Autowired
+    JsonTokenFilter tokenFilter;
+    @Autowired
+    UserDetailsService detailService;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors(AbstractHttpConfigurer::disable);
