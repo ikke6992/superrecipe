@@ -82,8 +82,8 @@ public class Recipe {
     @Override
     public String toString() {
         return "Recipe{\n  name=" + name +
-                ",\ningredients=" + Arrays.toString(ingredients.toArray()) +
-                ",\ninstructions=```\n" + instructions + "\n```}";
+                ",\n  ingredients=" + Arrays.toString(ingredients.toArray()) +
+                ",\n  instructions=```\n" + instructions + "\n  ```\n}";
     }
 
     public enum PreparationMethod {
