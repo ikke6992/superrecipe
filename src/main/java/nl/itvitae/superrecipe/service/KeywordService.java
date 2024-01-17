@@ -11,6 +11,6 @@ public class KeywordService {
     private final KeywordRepo keywordRepo;
 
     public Keyword getOrCreate(String value) {
-        return keywordRepo.findByValue().orElseGet(() -> keywordRepo.save(new Keyword(value)));
+        return keywordRepo.findByValue(value).orElseGet(() -> keywordRepo.save(new Keyword(value)));
     }
 }

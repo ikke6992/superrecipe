@@ -107,7 +107,6 @@ public class IngredientSeeder implements CommandLineRunner {
         userRepo.save(new User("user", passwordEncoder.encode("user"), "ROLE_USER"));
     }
 
-
     @Override
     public void run(String... args) {
         long ingredientCount = ingredientRepo.count();
