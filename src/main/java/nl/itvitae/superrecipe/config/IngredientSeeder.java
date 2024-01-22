@@ -3,11 +3,9 @@ package nl.itvitae.superrecipe.config;
 import lombok.RequiredArgsConstructor;
 import nl.itvitae.superrecipe.model.Ingredient;
 import nl.itvitae.superrecipe.model.IngredientCategory;
-import nl.itvitae.superrecipe.model.Keyword;
 import nl.itvitae.superrecipe.model.Recipe;
 import nl.itvitae.superrecipe.repo.IngredientCategoryRepo;
 import nl.itvitae.superrecipe.repo.IngredientRepo;
-import nl.itvitae.superrecipe.repo.KeywordRepo;
 import nl.itvitae.superrecipe.repo.RecipeRepo;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -21,7 +19,6 @@ public class IngredientSeeder implements CommandLineRunner {
     private final IngredientRepo ingredientRepo;
     private final IngredientCategoryRepo ingredientCategoryRepo;
     private final RecipeRepo recipeRepo;
-    private final KeywordRepo keywordRepo;
 
     public void seedIngredients() {
         IngredientCategory vegetable = new IngredientCategory("vegetable", false);
