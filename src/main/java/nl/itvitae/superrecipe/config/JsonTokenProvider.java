@@ -37,9 +37,9 @@ public class JsonTokenProvider {
     private void init() {
         try {
             this.jwtParser = (JwtParser) Jwts.parser().setSigningKey(jwtSecret);
-        } catch (Exception exception) {
-            exception.printStackTrace(System.out);
-            throw exception;
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            throw e;
         }
     }
 
@@ -66,9 +66,9 @@ public class JsonTokenProvider {
                 return parseJwtClaims(token);
             }
             return null;
-        } catch (ExpiredJwtException exception) {
-            request.setAttribute("invalid", exception.getMessage());
-            throw exception;
+        } catch (ExpiredJwtException ex) {
+            request.setAttribute("invalid", ex.getMessage());
+            throw ex;
         }
     }
 

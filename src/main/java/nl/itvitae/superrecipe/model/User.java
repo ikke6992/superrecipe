@@ -50,10 +50,6 @@ public class User implements UserDetails {
         favoriteRecipes.add(recipe);
     }
 
-    public boolean removeFavorite(Recipe recipe) {
-        return favoriteRecipes.remove(recipe);
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Arrays.stream(roles.split(",")).map(SimpleGrantedAuthority::new).toList();
@@ -90,15 +86,10 @@ public class User implements UserDetails {
             this.username = username;
             this.token = token;
         }
-
-        @Override
-        public String toString() {
-            return "JsonWebToken[Bearer " + token + "]";
-        }
     }
 
     @Override
     public String toString() {
-        return "User{name=" + username + ", password=" + (password.startsWith("$") ? "encrypted" : "unencrypted; " + password) + ", roles=[" + roles + "]}";
+        return "User{name=" + username + ", password=" + (password.startsWith("$") ? "encrypted" : "unencrypted;" + password) + ", roles=[" + roles + "]}";
     }
 }
