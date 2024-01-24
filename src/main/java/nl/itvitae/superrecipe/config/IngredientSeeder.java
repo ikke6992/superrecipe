@@ -1,13 +1,10 @@
 package nl.itvitae.superrecipe.config;
 
 import lombok.RequiredArgsConstructor;
-import nl.itvitae.superrecipe.model.Ingredient;
-import nl.itvitae.superrecipe.model.IngredientCategory;
-import nl.itvitae.superrecipe.model.Recipe;
-import nl.itvitae.superrecipe.repo.IngredientCategoryRepo;
-import nl.itvitae.superrecipe.repo.IngredientRepo;
-import nl.itvitae.superrecipe.repo.RecipeRepo;
+import nl.itvitae.superrecipe.model.*;
+import nl.itvitae.superrecipe.repo.*;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -19,6 +16,9 @@ public class IngredientSeeder implements CommandLineRunner {
     private final IngredientRepo ingredientRepo;
     private final IngredientCategoryRepo ingredientCategoryRepo;
     private final RecipeRepo recipeRepo;
+    private final UserRepo userRepo;
+    private final AuthorityRepo authorityRepo;
+    private final PasswordEncoder passwordEncoder;
 
     public void seedIngredients() {
         IngredientCategory vegetable = new IngredientCategory("vegetable", false);
@@ -109,6 +109,18 @@ public class IngredientSeeder implements CommandLineRunner {
             seedRecipes();
         } else {
             System.out.println("Ingredients already present: " + ingredientCount);
+        }
+
+        if (userRepo.count() == 0) {
+            User bill = new User("bill", passwordEncoder.encode("secret"));
+            userRepo.save(bill);
+            Authority billsRole = new Authority((bill.getUsername()),"ROLE_ADMIN");
+            authorityRepo.save(billsRole);
+            User jane = new User("Jane", passwordEncoder.encode("password"));
+            userRepo.save(jane);
+            Authority janesRole = new Authority(jane.getUsername(),"ROLE_USER");
+            authorityRepo.save(janesRole);
+
         }
     }
 }
