@@ -1,5 +1,6 @@
 package nl.itvitae.superrecipe.config;
 
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 import lombok.RequiredArgsConstructor;
 import nl.itvitae.superrecipe.model.*;
 import nl.itvitae.superrecipe.repo.*;
@@ -15,12 +16,22 @@ public class IngredientSeeder implements CommandLineRunner {
 
     private final IngredientRepo ingredientRepo;
     private final IngredientCategoryRepo ingredientCategoryRepo;
+    private final UnitValueRepo unitValueRepo;
     private final RecipeRepo recipeRepo;
     private final UserRepo userRepo;
     private final AuthorityRepo authorityRepo;
     private final PasswordEncoder passwordEncoder;
 
     public void seedIngredients() {
+
+        UnitValue ml = new UnitValue("Milliliter", "%s ml", false);
+        UnitValue gr = new UnitValue("Gram", "%s gr", false);
+        UnitValue el = new UnitValue("Eetlepel", "%s el", true);
+        UnitValue tl = new UnitValue("Theelepel", "%s tl", true);
+        UnitValue stuks = new UnitValue("Stuks", "%s stuks", false);
+        UnitValue tenen = new UnitValue("Tenen", "%s tenen", false);
+        unitValueRepo.saveAll(List.of(ml, gr, el, tl, stuks, tenen));
+        
         IngredientCategory vegetable = new IngredientCategory("vegetable", false);
         ingredientCategoryRepo.save(vegetable);
         IngredientCategory meat = new IngredientCategory("meat", false);
@@ -39,36 +50,36 @@ public class IngredientSeeder implements CommandLineRunner {
         ingredientCategoryRepo.save(condiment);
 
         List<Ingredient> ingredient = List.of(
-            new Ingredient("ui", vegetable, Ingredient.UnitValue.GRAMS),
-            new Ingredient("knoflook", vegetable, Ingredient.UnitValue.TOES),
-            new Ingredient("bloemkool", vegetable, Ingredient.UnitValue.GRAMS),
-            new Ingredient("wortel", vegetable, Ingredient.UnitValue.GRAMS),
-            new Ingredient("paprika", vegetable, Ingredient.UnitValue.GRAMS),
-            new Ingredient("tomaat", vegetable, Ingredient.UnitValue.GRAMS),
-            new Ingredient("aardappel", carb, Ingredient.UnitValue.GRAMS),
-            new Ingredient("rijst", carb, Ingredient.UnitValue.GRAMS),
-            new Ingredient("polenta", carb, Ingredient.UnitValue.GRAMS),
-            new Ingredient("pasta", carb, Ingredient.UnitValue.GRAMS),
-            new Ingredient("brood", carb, Ingredient.UnitValue.GRAMS),
-            new Ingredient("bladerdeeg", carb, Ingredient.UnitValue.PIECES),
-            new Ingredient("varkenshaas", vegetable, Ingredient.UnitValue.GRAMS),
-            new Ingredient("runderhaas", meat, Ingredient.UnitValue.GRAMS),
-            new Ingredient("kipfilet", meat, Ingredient.UnitValue.GRAMS),
-            new Ingredient("kipdij", meat, Ingredient.UnitValue.GRAMS),
-            new Ingredient("bacon", meat, Ingredient.UnitValue.GRAMS),
-            new Ingredient("ribeye", meat, Ingredient.UnitValue.GRAMS),
-            new Ingredient("frikandel", meat, Ingredient.UnitValue.PIECES),
-            new Ingredient("ei", dairy, Ingredient.UnitValue.PIECES),
-            new Ingredient("pecorino", dairy, Ingredient.UnitValue.GRAMS),
-            new Ingredient("pinda", nut, Ingredient.UnitValue.GRAMS),
-            new Ingredient("cashew", nut, Ingredient.UnitValue.GRAMS),
-            new Ingredient("macadamia", nut, Ingredient.UnitValue.GRAMS),
-            new Ingredient("zout", spice, Ingredient.UnitValue.TEASPOONS),
-            new Ingredient("peper", spice, Ingredient.UnitValue.TEASPOONS),
-            new Ingredient("curry", condiment, Ingredient.UnitValue.MILLILITERS),
-            new Ingredient("pinda", nut, Ingredient.UnitValue.GRAMS),
-            new Ingredient("cashew", nut, Ingredient.UnitValue.GRAMS),
-            new Ingredient("macadamia", nut, Ingredient.UnitValue.GRAMS)
+            new Ingredient("ui", vegetable, gr),
+            new Ingredient("knoflook", vegetable, tenen),
+            new Ingredient("bloemkool", vegetable, gr),
+            new Ingredient("wortel", vegetable, gr),
+            new Ingredient("paprika", vegetable, gr),
+            new Ingredient("tomaat", vegetable, gr),
+            new Ingredient("aardappel", carb, gr),
+            new Ingredient("rijst", carb, gr),
+            new Ingredient("polenta", carb, gr),
+            new Ingredient("pasta", carb, gr),
+            new Ingredient("brood", carb, gr),
+            new Ingredient("bladerdeeg", carb, stuks),
+            new Ingredient("varkenshaas", vegetable, gr),
+            new Ingredient("runderhaas", meat, gr),
+            new Ingredient("kipfilet", meat, gr),
+            new Ingredient("kipdij", meat, gr),
+            new Ingredient("bacon", meat, gr),
+            new Ingredient("ribeye", meat, gr),
+            new Ingredient("frikandel", meat, stuks),
+            new Ingredient("ei", dairy, stuks),
+            new Ingredient("pecorino", dairy, gr),
+            new Ingredient("pinda", nut, gr),
+            new Ingredient("cashew", nut, gr),
+            new Ingredient("macadamia", nut, gr),
+            new Ingredient("zout", spice, tl),
+            new Ingredient("peper", spice, tl),
+            new Ingredient("curry", condiment, ml),
+            new Ingredient("pinda", nut, gr),
+            new Ingredient("cashew", nut, gr),
+            new Ingredient("macadamia", nut, gr)
         );
 
         ingredientRepo.saveAll(ingredient);
