@@ -77,10 +77,7 @@ public class Recipe {
         keywords.add(new Keyword(keyword));
     }
 
-    @JsonGetter
-    public String getKeywords() {
-        return keywords.stream().map(Keyword::getName).collect(Collectors.joining(","));
-    }
+
 
     public enum PreparationMethod {
         OVEN,
