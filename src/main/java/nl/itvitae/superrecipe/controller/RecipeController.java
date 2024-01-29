@@ -3,12 +3,11 @@ package nl.itvitae.superrecipe.controller;
 import lombok.RequiredArgsConstructor;
 import nl.itvitae.superrecipe.model.Recipe;
 import nl.itvitae.superrecipe.repo.RecipeRepo;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +31,22 @@ public class RecipeController {
     @GetMapping("/search")
     public Iterable<String> searchAll() {
         return recipeRepo.findAllNames();
+    }
+
+    private record RecipeData(String name) {}
+    @PostMapping("/new")
+    public ResponseEntity<Recipe> add(@RequestBody RecipeData recipeData, UriComponentsBuilder ucb) {
+        if (!recipeData.name.isEmpty()) {
+            Recipe recipe = new Recipe(recipeData.name);
+            recipeRepo.save(recipe);
+            URI locationOfNewRecipe = ucb
+                    .path("/api/ingredients/{id}")
+                    .buildAndExpand(recipeRepo.findAll().size())
+                    .toUri();
+            return ResponseEntity.created(locationOfNewRecipe).body(recipe);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 }

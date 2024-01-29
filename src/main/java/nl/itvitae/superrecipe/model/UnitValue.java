@@ -31,8 +31,11 @@ public class UnitValue {
     public String format(double number) {
         double d = number % 1.0;
         if (!useFraction || d == 0.0) return String.format(format, (int) number);
-        if (d < 0.375) return String.format(format, number + "\u00bc"); // 1/4
-        if (d < 0.625) return String.format(format, number + "\u00bd"); // 1/2
-        return String.format(format, number + "\u00be"); // 3/4
+        else {
+            String fraction = number > 1 ? String.valueOf((int) number) : "";
+            if (d < 0.375) return String.format(format, fraction + "\u00bc"); // 1/4
+            if (d < 0.625) return String.format(format, fraction + "\u00bd"); // 1/2
+            return String.format(format, fraction + "\u00be"); // 3/4
+        }
     }
 }
