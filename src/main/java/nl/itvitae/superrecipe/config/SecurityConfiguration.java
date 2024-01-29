@@ -21,11 +21,11 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
+        return httpSecurity.csrf(c -> c.disable())
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(requests ->
                         requests.requestMatchers("/admin").hasRole("ADMIN")
-                                .requestMatchers("/user").hasRole("USER")
+                                //.requestMatchers("/user").hasRole("USER")
                                 .requestMatchers("/**").permitAll())
                 .build();
 
