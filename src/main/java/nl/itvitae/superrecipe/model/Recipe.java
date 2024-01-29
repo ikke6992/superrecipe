@@ -3,21 +3,15 @@ package nl.itvitae.superrecipe.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 import com.fasterxml.jackson.annotation.JsonGetter;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -36,15 +30,11 @@ public class Recipe {
 
     private String name;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(
-        name = "recipe_keyword",
-        joinColumns = {@JoinColumn(name = "keyword_id")},
-        inverseJoinColumns = {@JoinColumn(name = "recipe_id")}
-    )
+    @ManyToMany
     private Set<Keyword> keywords = new HashSet<>();
 
-    // TODO: Add LOB for picture
+    private byte[] image;
+
     @Column(columnDefinition = "TEXT")
     private String instructions;
 
@@ -60,6 +50,15 @@ public class Recipe {
     @Enumerated(EnumType.STRING)
     private DishType type;
 
+    public Recipe(String name) {
+        this.name=name;
+        this.instructions="";
+        this.kitchen="";
+        this.preparationMethod=PreparationMethod.COLD;
+        this.ingredients = new ArrayList<>();
+        this.type=DishType.MAIN_DISH;
+    }
+
     public Recipe(String name, String instructions, String kitchen, PreparationMethod preparationMethod, DishType type) {
         this.name = name;
         this.instructions = instructions;
@@ -73,8 +72,15 @@ public class Recipe {
         this.ingredients.add(new RecipeIngredient(ingredient, amount));
     }
 
-    public void addKeyword(String keyword) {
-        keywords.add(new Keyword(keyword));
+    public void addKeyword(Keyword keyword) {
+        keywords.add(keyword);
+    }
+
+    public void addImage(String path) throws Exception {
+        BufferedImage bImage = ImageIO.read(new File(path));
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ImageIO.write(bImage, "jpg", bos);
+        image = bos.toByteArray();
     }
 
 

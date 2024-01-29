@@ -5,6 +5,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import java.util.Set;
+
 @Getter
 @NoArgsConstructor
 @Entity(name="users")
@@ -15,6 +17,8 @@ public class User {
     private String password;
     private boolean enabled = true;
 
+    //private Set<Recipe> favorites;
+
 
     public User(String username, String password) {
         this.username = username;
@@ -23,4 +27,12 @@ public class User {
     }
 
     public String getUsername() { return username;}
+
+    /**public void addFavorite(Recipe recipe) {
+        favorites.add(recipe);
+    }
+
+    public void removeFavorite(Recipe recipe) {
+        favorites.remove(recipe);
+    }*/
 }
